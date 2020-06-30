@@ -181,3 +181,78 @@ class HBNBCommand(cmd.Cmd):
                                         value = int(value)
                                     setattr(obj, comds[2], value)
                                     storage.save()
+
+    def do_count(self, args):
+        """ count number of instances.
+        Usage 🛠:
+        1 - <class name>.count()"""
+        count = 0
+        instances = storage.all()
+        if args not in self.classes_list:
+            print("** class doesn't exist **")
+        else:
+            for key in instances.keys():
+                sec_comm = key.split('.')
+                # (i.e) User.1233 = User
+                if sec_comm[0] == args:
+                    count += 1
+            print(count)
+
+    def default(self, args):
+        """ default method """
+        commands = args.split('.', 1)
+        #  (i.e) split till firts coin
+        #  (i.e) commands = ['__clas__.__name__', 'all()'] 🔐
+        try:
+            sec_comm = commands[1].split('(')
+        #  (i.e) sec_comm = ['all', '('] 🔐
+            if sec_comm[0] == 'all':
+                self.do_all(str(commands[0]))
+            if sec_comm[0] == 'count':
+                self.do_count(str(commands[0]))
+            if sec_comm[0] == 'show':
+                show_id_command = sec_comm[1].split('"')
+                #  sec_comm[1] = "123123123") 🔐
+                user_show = str(commands[0] + " " + show_id_command[1])
+                #  (i.e) show_id_command = ['"' '123123123' , ')'] 🔐
+                #  (i.e) user_show = "__clas__.__name__ 123123" = user 123123 🔐
+                self.do_show(user_show)
+            if sec_comm[0] == 'destroy':
+                show_id_command = sec_comm[1].split('"')
+                user_show = str(commands[0] + " " + show_id_command[1])
+                self.do_destroy(user_show)
+            if sec_comm[0] == 'update':
+                show_id_command = sec_comm[1].split()
+                show_id_command_two = "".join(show_id_command)
+                #  (i.e) "123123123"atributo"value 🔐
+                show_id_command_three = show_id_command_two.replace('\"', " ")
+                #  (i.e) 123123123, atributo, value) 🔐
+                words = ""
+                for letra in show_id_command_three:
+                    if letra not in ',)':
+                        words = words + letra
+                        #  (i.e) 121313 atributo value 🔐
+                self.do_update(commands[0] + words)
+        except Exception:
+            pass
+
+
+def list_to_dict(str_list):
+    """ list to dict """
+    new_word = ""
+    for letra in str_list:
+        if letra not in '[}"{:]':
+            new_word = new_word + letra
+    new_word2 = ""
+    for letra in new_word:
+        if letra not in '\',':
+            new_word2 = new_word2 + letra
+    list_two = new_word2.split()
+    dictOfWords = {
+        list_two[i]: list_two[i + 1] for i in range(0, len(list_two), 2)
+        }
+    return dictOfWords
+
+
+if __name__ == "__main__":
+    HBNBCommand().cmdloop()
