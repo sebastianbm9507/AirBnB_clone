@@ -157,20 +157,8 @@ class HBNBCommand(cmd.Cmd):
                             flag = comds[2].split("'")
                             if flag[0] is '{':
                                 str_list = str(comds[2:])
-                                new_word = ""
-                                for letra in str_list:
-                                    if letra not in '[}"{:]':
-                                        new_word = new_word + letra
-                                new_word2 = ""
-                                for letra in new_word:
-                                    if letra not in '\',':
-                                        new_word2 = new_word2 + letra
-                                list_two = new_word2.split()
-                                dictOfWords = {
-                                    list_two[i]: list_two[i + 1]
-                                    for i in range(0, len(list_two), 2)
-                                    }
-                                for key, value in dictOfWords.items():
+                                new_dict = self.list_to_dict(str_list)
+                                for key, value in new_dict.items():
                                     if hasattr(obj, key):
                                         value = type(getattr(obj, key))(value)
                                     #  (i.e) int(comds[3]) 🔐
@@ -247,7 +235,25 @@ class HBNBCommand(cmd.Cmd):
                         #  (i.e) 121313 atributo value 🔐
                 self.do_update(commands[0] + words)
         except Exception:
-            pass
+            cmd.Cmd.default(self, args)
+
+    @staticmethod
+    def list_to_dict(str_list):
+        """ list to dict """
+        new_word = ""
+        for letra in str_list:
+            if letra not in '[}"{:]':
+                new_word = new_word + letra
+        new_word2 = ""
+        for letra in new_word:
+            if letra not in '\',':
+                new_word2 = new_word2 + letra
+        list_two = new_word2.split()
+        dictOfWords = {
+            list_two[i]: list_two[i + 1] for i in range(0, len(list_two), 2)
+            }
+        return dictOfWords
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
