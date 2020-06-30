@@ -157,7 +157,7 @@ class HBNBCommand(cmd.Cmd):
                             flag = comds[2].split("'")
                             if flag[0] is '{':
                                 str_list = str(comds[2:])
-                                new_dict = list_to_dict(str_list)
+                                new_dict = self.list_to_dict(str_list)
                                 for key, value in new_dict.items():
                                     if hasattr(obj, key):
                                         value = type(getattr(obj, key))(value)
@@ -167,6 +167,7 @@ class HBNBCommand(cmd.Cmd):
                                     setattr(obj, key, value)
                                     storage.save()
                             else:
+                                print("-->", args)
                                 value = comds[3].split("\"")
                                 # (i.e) evalue if value turns into list 🔐
                                 if len(value) > 1:
@@ -236,22 +237,22 @@ class HBNBCommand(cmd.Cmd):
         except Exception:
             pass
 
-
-def list_to_dict(str_list):
-    """ list to dict """
-    new_word = ""
-    for letra in str_list:
-        if letra not in '[}"{:]':
-            new_word = new_word + letra
-    new_word2 = ""
-    for letra in new_word:
-        if letra not in '\',':
-            new_word2 = new_word2 + letra
-    list_two = new_word2.split()
-    dictOfWords = {
-        list_two[i]: list_two[i + 1] for i in range(0, len(list_two), 2)
-        }
-    return dictOfWords
+    @staticmethod
+    def list_to_dict(str_list):
+        """ list to dict """
+        new_word = ""
+        for letra in str_list:
+            if letra not in '[}"{:]':
+                new_word = new_word + letra
+        new_word2 = ""
+        for letra in new_word:
+            if letra not in '\',':
+                new_word2 = new_word2 + letra
+        list_two = new_word2.split()
+        dictOfWords = {
+            list_two[i]: list_two[i + 1] for i in range(0, len(list_two), 2)
+            }
+        return dictOfWords
 
 
 if __name__ == "__main__":
