@@ -162,8 +162,6 @@ class HBNBCommand(cmd.Cmd):
                                     if hasattr(obj, key):
                                         value = type(getattr(obj, key))(value)
                                     #  (i.e) int(comds[3]) 🔐
-                                    elif value.isdigit() is True:
-                                        value = int(value)
                                     setattr(obj, key, value)
                                     storage.save()
                             else:
