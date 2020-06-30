@@ -170,6 +170,7 @@ class HBNBCommand(cmd.Cmd):
                                     #  (i.e) int(comds[3]) 🔐
                                     setattr(obj, key, value)
                                     storage.save()
+                                    storage.reload()
                             else:
                                 value = comds[3].split("\"")
                                 # (i.e) evalue if value turns into list 🔐
