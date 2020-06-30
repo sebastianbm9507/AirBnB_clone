@@ -92,7 +92,7 @@ class HBNBCommand(cmd.Cmd):
         2 - <class name>.destroy("<id>")
         """
         commands = args.split()
-        if len(commands[0]) < 1:
+        if len(commands) < 1:
             print("** class name missing **")
         elif commands[0] not in self.classes_list:
             print("** class doesn't exist **")
