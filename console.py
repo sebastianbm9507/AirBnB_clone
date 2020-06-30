@@ -166,21 +166,21 @@ class HBNBCommand(cmd.Cmd):
                                         value = int(value)
                                     setattr(obj, key, value)
                                     storage.save()
+                            else:
+                                value = comds[3].split("\"")
+                                # (i.e) evalue if value turns into list 🔐
+                                if len(value) > 1:
+                                    value = value[1]
                                 else:
-                                    value = comds[3].split("\"")
-                                    # (i.e) evalue if value turns into list 🔐
-                                    if len(value) > 1:
-                                        value = value[1]
-                                    else:
-                                        value = comds[3]
-                                    if hasattr(obj, comds[2]):
-                                        value = type(
-                                            getattr(obj, comds[2]))(value)
-                                        #  (i.e) int(comds[3]) 🔐
-                                    elif value.isdigit() is True:
-                                        value = int(value)
-                                    setattr(obj, comds[2], value)
-                                    storage.save()
+                                    value = comds[3]
+                                if hasattr(obj, comds[2]):
+                                    value = type(
+                                        getattr(obj, comds[2]))(value)
+                                    #  (i.e) int(comds[3]) 🔐
+                                elif value.isdigit() is True:
+                                    value = int(value)
+                                setattr(obj, comds[2], value)
+                                storage.save()
 
     def do_count(self, args):
         """ count number of instances.
