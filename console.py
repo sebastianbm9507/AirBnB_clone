@@ -157,7 +157,7 @@ class HBNBCommand(cmd.Cmd):
                         if key == key_id:
                             flag = comds[2].split("'")
                             # (i.e) {  🔐
-                            if flag[0] is '{':
+                            if flag[0] == '{':
                                 str_list = str(comds[2:])
                                 # (i.e) '{', 'tttttttttttt', ':5}' 🔐
                                 new_dict = self.list_to_dict(str_list)
