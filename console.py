@@ -75,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         elif commands[0] not in self.classes_list:
             print("** class doesn't exist **")
-        elif len(commands) < 1:
+        elif len(commands) < 2:
             print("** instance id missing **")
         else:
             key_to_validate = "{}.{}".format(commands[0], commands[1])
@@ -96,7 +96,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         elif commands[0] not in self.classes_list:
             print("** class doesn't exist **")
-        elif len(commands) < 1:
+        elif len(commands) < 2:
             print("** instance id missing **")
         else:
             key_to_validate = "{}.{}".format(commands[0], commands[1])
