@@ -221,8 +221,9 @@ class HBNBCommand(cmd.Cmd):
                         new_dict = aux_functions.list_to_dict(str_list)
                         # (i.e) new_dict = {'atibuto': 'value'} 🔐
                         for key, value in new_dict.items():
-                            to_do = commands[0] + " " + str(list_2[0]) + " " + str(key) + " " + str(value)
-                            print("to_do --->", to_do)
+                            to_do = commands[0] + " " + \
+                                str(list_2[0]) + " " + str(key) + \
+                                " " + str(value)
                             self.do_update(to_do)
                             # (i.e) class_name id atribute value
                     else:
