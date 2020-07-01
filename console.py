@@ -153,7 +153,7 @@ class HBNBCommand(cmd.Cmd):
                 elif len(comds) < 4:
                     print("** value missing **")
                 else:
-                    for key_id, obj in storage.all().items():
+                    for key_id, obj in instances.items():
                         if key == key_id:
                             flag = comds[2].split("'")
                             # (i.e) {  🔐
