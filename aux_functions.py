@@ -3,6 +3,7 @@
 
 import console
 
+
 def list_to_dict(str_list):
     """ list to dict """
     new_word = ""
