@@ -139,7 +139,6 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             comds = args.split()
-            print("--> comds", comds)
             if comds[0] not in self.classes_list:
                 print("** class doesn't exist **")
             elif len(comds) < 2:
@@ -156,34 +155,20 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     for key_id, obj in instances.items():
                         if key == key_id:
-                            flag = comds[2].split("'")
-                            # (i.e) {  🔐
-                            if flag[0] is '{':
-                                str_list = str(comds[2:])
-                                # (i.e) '{', 'tttttttttttt', ':5}' 🔐
-                                new_dict = aux_functions.list_to_dict(str_list)
-                                # (i.e) new_dict = {'tttttttttttt': '5'} 🔐
-                                for key, value in new_dict.items():
-                                    if hasattr(obj, key):
-                                        value = type(getattr(obj, key))(value)
-                                    #  (i.e) int(comds[3]) 🔐
-                                    setattr(obj, key, value)
-                                    storage.save()
+                            value = comds[3].split("\"")
+                            # (i.e) evalue if value turns into list 🔐
+                            if len(value) > 1:
+                                value = value[1]
                             else:
-                                value = comds[3].split("\"")
-                                # (i.e) evalue if value turns into list 🔐
-                                if len(value) > 1:
-                                    value = value[1]
-                                else:
-                                    value = comds[3]
-                                if hasattr(obj, comds[2]):
-                                    value = type(
-                                        getattr(obj, comds[2]))(value)
-                                    #  (i.e) int(comds[3]) 🔐
-                                elif value.isdigit() is True:
-                                    value = int(value)
-                                setattr(obj, comds[2], value)
-                                storage.save()
+                                value = comds[3]
+                            if hasattr(obj, comds[2]):
+                                value = type(
+                                    getattr(obj, comds[2]))(value)
+                                #  (i.e) int(comds[3]) 🔐
+                            elif value.isdigit() is True:
+                                value = int(value)
+                            setattr(obj, comds[2], value)
+                            storage.save()
 
     def do_count(self, args):
         """ count number of instances.
@@ -207,41 +192,53 @@ class HBNBCommand(cmd.Cmd):
             commands = args.split('.', 1)
             #  (i.e) split till firts coincidence
             #  (i.e) commands = ['__clas__.__name__', 'all()'] 🔐
-            #try:
-            sec_comm = commands[1].split('(')
-            #  (i.e) sec_comm = ['all', '('] 🔐
-            if sec_comm[0] == 'all':
-                self.do_all(str(commands[0]))
-            if sec_comm[0] == 'count':
-                self.do_count(str(commands[0]))
-            if sec_comm[0] == 'show':
-                show_id_command = sec_comm[1].split('"')
-                #  sec_comm[1] = "123123123") 🔐
-                user_show = str(commands[0] + " " + show_id_command[1])
-                #  (i.e) show_id_command = ['"' '123123123' , ')'] 🔐
-                #  (i.e) user_show = "__clas__.__name__ 123123" = user 123123 🔐
-                self.do_show(user_show)
-            if sec_comm[0] == 'destroy':
-                show_id_command = sec_comm[1].split('"')
-                user_show = str(commands[0] + " " + show_id_command[1])
-                self.do_destroy(user_show)
-            if sec_comm[0] == 'update':
-                show_id_command = sec_comm[1].split()
-                show_id_command_two = "".join(show_id_command)
-                #  (i.e) "123123123"atributo"value 🔐
-                show_id_command_three = show_id_command_two.replace('\"', " ")
-                #  (i.e) 123123123, atributo, value) 🔐
-                words = ""
-                for letra in show_id_command_three:
-                    if letra not in ',)':
-                        words = words + letra
-                        #  (i.e) 121313 atributo value 🔐
-                self.do_update(commands[0] + words)
-                # (i.e) commads[0] = class name 🔐
-                # words=f7fd11d3-945c-443d-ad98-a594bb48d0b6 🔐
-                # atibuto-name  key-value 🔐
-        #except Exception:
-            #cmd.Cmd.default(self, args)
+            try:
+                sec_comm = commands[1].split('(')
+                #  (i.e) sec_comm = ['all', '('] 🔐
+                if sec_comm[0] == 'all':
+                    self.do_all(str(commands[0]))
+                if sec_comm[0] == 'count':
+                    self.do_count(str(commands[0]))
+                if sec_comm[0] == 'show':
+                    command = sec_comm[1].split('"')
+                    #  sec_comm[1] = "123123123") 🔐
+                    user_show = str(commands[0] + " " + command[1])
+                    #  (i.e) command = ['"' '123123123' , ')'] 🔐
+                    #  (i.e) user_show = "class id" = user 123123 🔐
+                    self.do_show(user_show)
+                if sec_comm[0] == 'destroy':
+                    command = sec_comm[1].split('"')
+                    user_show = str(commands[0] + " " + command[1])
+                    self.do_destroy(user_show)
+                if sec_comm[0] == 'update':
+                    command = sec_comm[1].split()
+                    command_two = "".join(command)
+                    #  (i.e) "123123123"atributo"value 🔐
+                    command_three = command_two.replace('\"', " ")
+                    #  (i.e) 123123123, atributo, value) 🔐
+                    words = ""
+                    for letra in command_three:
+                        if letra not in ',)':
+                            words = words + letra
+                            #  (i.e) 121313 { atributo value } 🔐
+                    list_2 = words.split()
+                    # (i.e) ['id', '{', 'atibuto', ':', 'valor', '}'] 🔐
+                    flag = list_2[1].split("'")
+                    # (i,e) ['{']
+                    if flag[0] is '{':
+                        str_list = str(list_2[1:])
+                        # (i.e) ['{', 'atribute', ':', 'value', '}'] 🔐
+                        new_dict = aux_functions.list_to_dict(str_list)
+                        # (i.e) new_dict = {'atibuto': 'value'} 🔐
+                        for key, value in new_dict.items():
+                            to_do = commands[0] + " " + str(list_2[0]) + " " + str(key) + " " + str(value)
+                            self.do_update(to_do)
+                            # (i.e) class_name id atribute value
+                    else:
+                        self.do_update(commands[0] + words)
+                        # (i.e) class_name id atribute value 🔐
+            except Exception:
+                cmd.Cmd.default(self, args)
         else:
             cmd.Cmd.default(self, args)
 
