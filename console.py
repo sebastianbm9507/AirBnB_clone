@@ -181,6 +181,7 @@ class HBNBCommand(cmd.Cmd):
             #  (i.e) split till firts coincidence
             #  (i.e) commands = ['__clas__.__name__', 'all()'] 🔐
             try:
+                commands[1] = str(commands[1]).replace("'", '"')
                 sec_comm = commands[1].split('(')
                 #  (i.e) sec_comm = ['all', '('] 🔐
                 if sec_comm[0] == 'all':
@@ -199,6 +200,7 @@ class HBNBCommand(cmd.Cmd):
                     user_show = str(commands[0] + " " + command[1])
                     self.do_destroy(user_show)
                 if sec_comm[0] == 'update':
+                    print("commd -->", commands)
                     command = sec_comm[1].split()
                     command_two = "".join(command)
                     #  (i.e) "123123123"atributo"value 🔐
@@ -220,6 +222,7 @@ class HBNBCommand(cmd.Cmd):
                         # (i.e) new_dict = {'atibuto': 'value'} 🔐
                         for key, value in new_dict.items():
                             to_do = commands[0] + " " + str(list_2[0]) + " " + str(key) + " " + str(value)
+                            print("to_do --->", to_do)
                             self.do_update(to_do)
                             # (i.e) class_name id atribute value
                     else:
