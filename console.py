@@ -202,43 +202,46 @@ class HBNBCommand(cmd.Cmd):
 
     def default(self, args):
         """ default method """
-        commands = args.split('.', 1)
-        #  (i.e) split till firts coincidence
-        #  (i.e) commands = ['__clas__.__name__', 'all()'] 🔐
-        try:
-            sec_comm = commands[1].split('(')
-        #  (i.e) sec_comm = ['all', '('] 🔐
-            if sec_comm[0] == 'all':
-                self.do_all(str(commands[0]))
-            if sec_comm[0] == 'count':
-                self.do_count(str(commands[0]))
-            if sec_comm[0] == 'show':
-                show_id_command = sec_comm[1].split('"')
-                #  sec_comm[1] = "123123123") 🔐
-                user_show = str(commands[0] + " " + show_id_command[1])
-                #  (i.e) show_id_command = ['"' '123123123' , ')'] 🔐
-                #  (i.e) user_show = "__clas__.__name__ 123123" = user 123123 🔐
-                self.do_show(user_show)
-            if sec_comm[0] == 'destroy':
-                show_id_command = sec_comm[1].split('"')
-                user_show = str(commands[0] + " " + show_id_command[1])
-                self.do_destroy(user_show)
-            if sec_comm[0] == 'update':
-                show_id_command = sec_comm[1].split()
-                show_id_command_two = "".join(show_id_command)
-                #  (i.e) "123123123"atributo"value 🔐
-                show_id_command_three = show_id_command_two.replace('\"', " ")
-                #  (i.e) 123123123, atributo, value) 🔐
-                words = ""
-                for letra in show_id_command_three:
-                    if letra not in ',)':
-                        words = words + letra
-                        #  (i.e) 121313 atributo value 🔐
-                self.do_update(commands[0] + words)
-                # (i.e) commads[0] = class name 🔐
-                # words=f7fd11d3-945c-443d-ad98-a594bb48d0b6 🔐
-                # atibuto-name  key-value 🔐
-        except Exception:
+        if len(args.split(".")) > 1:
+            commands = args.split('.', 1)
+            #  (i.e) split till firts coincidence
+            #  (i.e) commands = ['__clas__.__name__', 'all()'] 🔐
+            try:
+                sec_comm = commands[1].split('(')
+            #  (i.e) sec_comm = ['all', '('] 🔐
+                if sec_comm[0] == 'all':
+                    self.do_all(str(commands[0]))
+                if sec_comm[0] == 'count':
+                    self.do_count(str(commands[0]))
+                if sec_comm[0] == 'show':
+                    show_id_command = sec_comm[1].split('"')
+                    #  sec_comm[1] = "123123123") 🔐
+                    user_show = str(commands[0] + " " + show_id_command[1])
+                    #  (i.e) show_id_command = ['"' '123123123' , ')'] 🔐
+                    #  (i.e) user_show = "__clas__.__name__ 123123" = user 123123 🔐
+                    self.do_show(user_show)
+                if sec_comm[0] == 'destroy':
+                    show_id_command = sec_comm[1].split('"')
+                    user_show = str(commands[0] + " " + show_id_command[1])
+                    self.do_destroy(user_show)
+                if sec_comm[0] == 'update':
+                    show_id_command = sec_comm[1].split()
+                    show_id_command_two = "".join(show_id_command)
+                    #  (i.e) "123123123"atributo"value 🔐
+                    show_id_command_three = show_id_command_two.replace('\"', " ")
+                    #  (i.e) 123123123, atributo, value) 🔐
+                    words = ""
+                    for letra in show_id_command_three:
+                        if letra not in ',)':
+                            words = words + letra
+                            #  (i.e) 121313 atributo value 🔐
+                    self.do_update(commands[0] + words)
+                    # (i.e) commads[0] = class name 🔐
+                    # words=f7fd11d3-945c-443d-ad98-a594bb48d0b6 🔐
+                    # atibuto-name  key-value 🔐
+            except Exception:
+                cmd.Cmd.default(self, args)
+        else:
             cmd.Cmd.default(self, args)
 
     @staticmethod
