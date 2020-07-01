@@ -157,20 +157,17 @@ class HBNBCommand(cmd.Cmd):
                         if key == key_id:
                             flag = comds[2].split("'")
                             # (i.e) {  🔐
-                            if flag[0] == '{':
-                                str_list = comds[2:]
-                                new_st = "'".join(str_list)
-                                new_st_2 = eval(new_st)
+                            if flag[0] is '{':
+                                str_list = str(comds[2:])
                                 # (i.e) '{', 'tttttttttttt', ':5}' 🔐
-                                # new_dict = self.list_to_dict(str_list)
+                                new_dict = self.list_to_dict(str_list)
                                 # (i.e) new_dict = {'tttttttttttt': '5'} 🔐
-                                for key, value in new_st_2.items():
+                                for key, value in new_dict.items():
                                     if hasattr(obj, key):
                                         value = type(getattr(obj, key))(value)
                                     #  (i.e) int(comds[3]) 🔐
                                     setattr(obj, key, value)
                                     storage.save()
-                                    storage.reload()
                             else:
                                 value = comds[3].split("\"")
                                 # (i.e) evalue if value turns into list 🔐
@@ -240,9 +237,30 @@ class HBNBCommand(cmd.Cmd):
                 self.do_update(commands[0] + words)
                 # (i.e) commads[0] = class name 🔐
                 # words=f7fd11d3-945c-443d-ad98-a594bb48d0b6 🔐
-                # atibuto-name  atributo-valor 🔐
+                # atibuto-name  key-value 🔐
         except Exception:
             cmd.Cmd.default(self, args)
+
+    @staticmethod
+    def list_to_dict(str_list):
+        """ list to dict """
+        new_word = ""
+        for letra in str_list:
+            if letra not in '[}"{:]':
+                new_word = new_word + letra
+        # (i.e) -> '', 'key', 'value' 🔐
+        new_word2 = ""
+        for letra in new_word:
+            if letra not in '\',':
+                new_word2 = new_word2 + letra
+        #  (i.e) -> key value 🔐
+        list_two = new_word2.split()
+        dictOfWords = {
+            list_two[i]: list_two[i + 1] for i in range(0, len(list_two), 2)
+            }
+        # (i.e)-> {'key': 'value'} 🔐
+        return dictOfWords
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
