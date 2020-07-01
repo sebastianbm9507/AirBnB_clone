@@ -168,7 +168,7 @@ class HBNBCommand(cmd.Cmd):
                             elif value.isdigit() is True:
                                 value = int(value)
                             setattr(obj, comds[2], value)
-                            storage.save()
+                            storage.all()[key_id].save() 
 
     def do_count(self, args):
         """ count number of instances.
