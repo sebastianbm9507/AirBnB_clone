@@ -71,7 +71,7 @@ class HBNBCommand(cmd.Cmd):
             if key_to_validate not in instances:
                 print("** no instance found **")
             else:
-                print(str(instances[key_to_validate]))
+                print(instances[key_to_validate])
 
     def do_destroy(self, args):
         """ Destroy an instance.
