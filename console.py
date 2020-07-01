@@ -48,22 +48,9 @@ class HBNBCommand(cmd.Cmd):
         elif args not in self.classes_list:
             print("** class doesn't exist **")
         else:
-            if args == 'BaseModel':
-                new_instance = BaseModel()
-            elif args == 'User':
-                new_instance = User()
-            elif args == 'City':
-                new_instance = City()
-            elif args == 'Place':
-                new_instance = Place()
-            elif args == 'Amenity':
-                new_instance = Amenity()
-            elif args == 'State':
-                new_instance = State()
-            elif args == 'Review':
-                new_instance = Review()
-            new_instance.save()
+            new_instance = eval(args)()
             print(new_instance.id)
+            new_instance.save()
 
     def do_show(self, args):
         """ Show an instance.
@@ -168,7 +155,7 @@ class HBNBCommand(cmd.Cmd):
                             elif value.isdigit() is True:
                                 value = int(value)
                             setattr(obj, comds[2], value)
-                            storage.all()[key_id].save() 
+                            storage.all()[key_id].save()
 
     def do_count(self, args):
         """ count number of instances.
