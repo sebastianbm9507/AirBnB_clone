@@ -67,11 +67,12 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         else:
             key_to_validate = "{}.{}".format(commands[0], commands[1])
-            instances = storage.all()
-            if key_to_validate not in instances:
+            if key_to_validate not in storage.all():
                 print("** no instance found **")
             else:
-                print(instances[key_to_validate])
+                for key, obj in storage.all().items():
+                    if key == key_to_validate:
+                        print(obj)
 
     def do_destroy(self, args):
         """ Destroy an instance.
