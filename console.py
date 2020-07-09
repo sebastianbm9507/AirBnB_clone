@@ -205,7 +205,7 @@ class HBNBCommand(cmd.Cmd):
                     command_two = "".join(command)
                     #  (i.e) "123123123"atributo"value 🔐
                     command_three = command_two.replace('\"', " ")
-                    #  (i.e) 123123123, atributo, value) 🔐
+                    #  (i.e) 123123123, atributo, value 🔐
                     words = ""
                     for letra in command_three:
                         if letra not in ',)':
